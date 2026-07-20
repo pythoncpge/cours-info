@@ -1,0 +1,5 @@
+<!-- F l-onglet dyal navigateur (Favicon) -->
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+
+<!-- F l-header dyal l-page -->
+<img src="logo.svg" alt="Logo Cours Infos" class="site-logo">
