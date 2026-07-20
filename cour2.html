@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapitre 2 : Types de Données - Python CPGE</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --accent-light: #eff6ff;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --text-dark: #1e293b;
+            --code-bg: #0f172a;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 45px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            transition: transform 0.2s;
+        }
+
+        .btn-back:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            color: var(--primary);
+            font-size: 2.1rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 35px;
+        }
+
+        /* Cartes de sections */
+        .section-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 25px;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .section-card:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            background-color: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background-color: var(--code-bg);
+            color: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Fira Code', monospace;
+            font-size: 0.93rem;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+
+        .code-kw { color: #38bdf8; }
+        .code-str { color: #f28b82; }
+        .code-cmt { color: #94a3b8; font-style: italic; }
+        .code-num { color: #a7f3d0; }
+
+        .inline-code {
+            background-color: #f1f5f9;
+            color: #d97706;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        /* Nouvelle Grille de Synthèse (Remplace le tableau) */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .summary-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .summary-item h4 {
+            margin: 0 0 8px 0;
+            color: var(--primary);
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-item code {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="btn-back">← Retour au sommaire</a>
+
+        <header>
+            <h1>Chapitre 2 : Les Types de Données de Base</h1>
+            <p class="subtitle">Vue d'ensemble des structures et types élémentaires manipulés par l'interpréteur Python.</p>
+        </header>
+
+        <!-- 1. Nombres -->
+        <div class="section-card">
+            <h2 class="section-title">
+                1. Les Nombres
+                <span class="badge">int</span>
+                <span class="badge">float</span>
+                <span class="badge">complex</span>
+            </h2>
+            <p>Python distingue trois types numériques principaux pour le calcul mathématique :</p>
+            <ul>
+                <li><strong>Entiers (<span class="inline-code">int</span>) :</strong> Nombres sans partie décimale, de précision illimitée.</li>
+                <li><strong>Flottants (<span class="inline-code">float</span>) :</strong> Représentation des réels selon la norme IEEE 754.</li>
+                <li><strong>Complexes (<span class="inline-code">complex</span>) :</strong> Stockent la partie réelle et imaginaire (notée avec <span class="inline-code">j</span>).</li>
+            </ul>
+            <div class="code-block">
+                a = <span class="code-num">10</span>               <span class="code-cmt"># int</span><br>
+                pi = <span class="code-num">3.14159</span>         <span class="code-cmt"># float</span><br>
+                z = <span class="code-num">2</span> + <span class="code-num">3</span>j          <span class="code-cmt"># complex</span>
+            </div>
+        </div>
+
+        <!-- 2. Chaînes -->
+        <div class="section-card">
+            <h2 class="section-title">
+                2. Les Chaînes de Caractères
+                <span class="badge">str</span>
+            </h2>
+            <p>Séquence immutables de caractères textuels encadrés par des guillemets simples ou doubles.</p>
+            <div class="code-block">
+                nom = <span class="code-str">"Alice"</span><br>
+                message = <span class="code-str">'Bonjour CPGE'</span>
+            </div>
+        </div>
+
+        <!-- 3. Booléens -->
+        <div class="section-card">
+            <h2 class="section-title">
+                3. Les Booléens
+                <span class="badge">bool</span>
+            </h2>
+            <p>Types logiques binaires prenant pour valeur <span class="inline-code">True</span> ou <span class="inline-code">False</span>. Indispensables pour le contrôle de flux.</p>
+            <div class="code-block">
+                est_valide = <span class="code-kw">True</span><br>
+                condition = (<span class="code-num">10</span> > <span class="code-num">5</span>)  <span class="code-cmt"># Évalue à True</span>
+            </div>
+        </div>
+
+        <!-- 4. Séquences -->
+        <div class="section-card">
+            <h2 class="section-title">
+                4. Les Séquences
+                <span class="badge">list</span>
+                <span class="badge">tuple</span>
+                <span class="badge">range</span>
+            </h2>
+            <p>Collections d'éléments ordonnés :</p>
+            <ul>
+                <li><strong><span class="inline-code">list</span> :</strong> Modifiable (mutable).</li>
+                <li><strong><span class="inline-code">tuple</span> :</strong> Fixe / Non modifiable (immutable).</li>
+                <li><strong><span class="inline-code">range</span> :</strong> Séquence d'entiers générée à la volée.</li>
+            </ul>
+            <div class="code-block">
+                notes = [<span class="code-num">12</span>, <span class="code-num">15</span>, <span class="code-num">18</span>]        <span class="code-cmt"># Liste</span><br>
+                vecteur = (<span class="code-num">1.0</span>, <span class="code-num">0.0</span>, <span class="code-num">2.5</span>)    <span class="code-cmt"># Tuple</span><br>
+                indices = <span class="code-kw">range</span>(<span class="code-num">0</span>, <span class="code-num">10</span>)      <span class="code-cmt"># Range</span>
+            </div>
+        </div>
+
+        <!-- 5. Ensembles & Dictionnaires -->
+        <div class="section-card">
+            <h2 class="section-title">
+                5. Ensembles & Dictionnaires
+                <span class="badge">set</span>
+                <span class="badge">dict</span>
+            </h2>
+            <p>Structures de données non séquentielles :</p>
+            <ul>
+                <li><strong>Ensemble (<span class="inline-code">set</span>) :</strong> Collection non ordonnée d'éléments uniques.</li>
+                <li><strong>Dictionnaire (<span class="inline-code">dict</span>) :</strong> Structure d'association par clés/valeurs.</li>
+            </ul>
+            <div class="code-block">
+                fruits = {<span class="code-str">"pomme"</span>, <span class="code-str">"orange"</span>}<br>
+                profil = {<span class="code-str">"nom"</span>: <span class="code-str">"Alice"</span>, <span class="code-str">"note"</span>: <span class="code-num">16</span>}
+            </div>
+        </div>
+
+        <!-- 6. Synthèse sous forme de cartes (Pas de tableau) -->
+        <h2>6. Synthèse visuelle des types</h2>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <h4>Entier <span class="badge">int</span></h4>
+                <code>42</code>
+            </div>
+            <div class="summary-item">
+                <h4>Flottant <span class="badge">float</span></h4>
+                <code>3.14</code>
+            </div>
+            <div class="summary-item">
+                <h4>Complexe <span class="badge">complex</span></h4>
+                <code>2 + 3j</code>
+            </div>
+            <div class="summary-item">
+                <h4>Booléen <span class="badge">bool</span></h4>
+                <code>True / False</code>
+            </div>
+            <div class="summary-item">
+                <h4>Chaîne <span class="badge">str</span></h4>
+                <code>"Python"</code>
+            </div>
+            <div class="summary-item">
+                <h4>Liste <span class="badge">list</span></h4>
+                <code>[1, 2, 3]</code>
+            </div>
+            <div class="summary-item">
+                <h4>Tuple <span class="badge">tuple</span></h4>
+                <code>(1, 2, 3)</code>
+            </div>
+            <div class="summary-item">
+                <h4>Ensemble <span class="badge">set</span></h4>
+                <code>{1, 2, 3}</code>
+            </div>
+            <div class="summary-item">
+                <h4>Dictionnaire <span class="badge">dict</span></h4>
+                <code>{"a": 1}</code>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+        
