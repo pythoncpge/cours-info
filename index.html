@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cours Infos - CPGE</title>
 
-    <!-- Logo dans l'onglet du navigateur -->
+    <!-- Logo f l-onglet -->
     <link rel="icon" type="image/svg+xml" href="logo.svg">
 
     <style>
@@ -13,54 +13,55 @@
             --primary: #0f172a;
             --accent: #2563eb;
             --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #334155;
             --border: #e2e8f0;
         }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--bg);
-            color: var(--text);
+            color: #334155;
             margin: 0;
-            padding: 20px;
+            padding: 20px 15px;
         }
 
-        /* En-tête centré en haut */
+        /* Espace réduit et encadré pour le header */
         .header-top {
             text-align: center;
-            padding-top: 20px;
-            padding-bottom: 25px;
-            margin-bottom: 35px;
-            border-bottom: 1px solid var(--border);
+            max-width: 500px; /* Limite la largeur pour que ça reste compact */
+            margin: 0 auto 30px auto;
+            padding: 15px 20px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
 
-        /* Logo en haut */
+        /* Logo petit et discret */
         .top-logo {
-            width: 100px;
+            width: 45px; /* Taille réduite */
             height: auto;
             display: block;
-            margin: 0 auto 15px auto;
+            margin: 0 auto 8px auto;
         }
 
-        /* Titre Bienvenue chez nous */
+        /* Titre plus petit */
         .welcome-text {
             color: var(--primary);
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin: 0 0 8px 0;
+            font-size: 1.25rem; /* Taille de police réduite */
+            font-weight: 700;
+            margin: 0 0 4px 0;
         }
 
-        /* Sous-titre */
+        /* Sous-titre compact */
         .welcome-subtext {
             color: #64748b;
-            font-size: 1.1rem;
+            font-size: 0.85rem; /* Petit texte */
             margin: 0;
         }
 
-        /* Conteneur des boutons de cours */
+        /* Conteneur principal */
         .main-container {
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
             text-align: center;
         }
@@ -68,11 +69,11 @@
         .buttons-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
-            margin-top: 20px;
         }
 
+        /* Les boutons restent bien visibles et mis en valeur */
         .btn {
             display: inline-block;
             padding: 14px 28px;
@@ -82,33 +83,28 @@
             color: #ffffff;
             border-radius: 10px;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
-        .btn-p { 
-            background-color: #2563eb; 
-        }
-
-        .btn-s { 
-            background-color: #0284c7; 
-        }
+        .btn-p { background-color: #2563eb; }
+        .btn-s { background-color: #0284c7; }
 
         .btn:hover { 
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
         }
     </style>
 </head>
 <body>
 
-    <!-- EN-TÊTE : LOGO CENTRÉ ET TEXTE EN HAUT -->
+    <!-- ZONE LOGO + TEXTE (COMPACTE & DISCRÈTE) -->
     <header class="header-top">
         <img src="logo.svg" alt="Logo Cours Infos" class="top-logo">
         <h1 class="welcome-text">Bienvenue chez nous !</h1>
         <p class="welcome-subtext">Votre plateforme de cours d'informatique et Python CPGE.</p>
     </header>
 
-    <!-- LES BOUTONS ACCÈS AUX COURS -->
+    <!-- LES BOUTONS (LES ÉLÉMENTS PRINCIPAUX) -->
     <div class="main-container">
         <div class="buttons-container">
             <a href="cours1.html" class="btn btn-p">Lire le Cours 1</a>
