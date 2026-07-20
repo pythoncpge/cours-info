@@ -1,106 +1,118 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="icon" type="image/svg+xml" href="logo.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python CPGE - Accueil</title>
+    <title>Cours Infos - CPGE</title>
+
+    <!-- Logo dans l'onglet du navigateur -->
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+
     <style>
         :root {
-            --primary-color: #1b4965;
-            --accent-color: #1abc9c;
-            --accent-hover: #16a085;
-            --secondary-color: #3498db;
-            --secondary-hover: #2980b9;
-            --bg-color: #f8f9fa;
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --bg: #f8fafc;
             --card-bg: #ffffff;
-            --text-color: #2b2d42;
+            --text: #334155;
+            --border: #e2e8f0;
         }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
-        .container {
+        /* En-tête centré en haut */
+        .header-top {
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Logo en haut */
+        .top-logo {
+            width: 100px;
+            height: auto;
+            display: block;
+            margin: 0 auto 15px auto;
+        }
+
+        /* Titre Bienvenue chez nous */
+        .welcome-text {
+            color: var(--primary);
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0 0 8px 0;
+        }
+
+        /* Sous-titre */
+        .welcome-subtext {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Conteneur des boutons de cours */
+        .main-container {
             max-width: 800px;
             margin: 0 auto;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             text-align: center;
         }
 
-        h1 {
-            color: var(--primary-color);
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-
-        p.description {
-            font-size: 1.1rem;
-            color: #6c757d;
-            margin-bottom: 30px;
-        }
-
-        /* Conteneur pour regrouper et aligner les deux boutons */
         .buttons-container {
             display: flex;
             justify-content: center;
-            gap: 15px; /* Espace entre les deux boutons */
-            flex-wrap: wrap; /* Aligne verticalement sur petit écran */
-            margin-top: 25px;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
         }
 
-        /* Style de base des boutons */
         .btn {
             display: inline-block;
             padding: 14px 28px;
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             text-decoration: none;
             color: #ffffff;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        /* Style du Premier Bouton (Cours 1) */
-        .btn-primary {
-            background-color: var(--accent-color);
+        .btn-p { 
+            background-color: #2563eb; 
         }
 
-        .btn-primary:hover {
-            background-color: var(--accent-hover);
+        .btn-s { 
+            background-color: #0284c7; 
+        }
+
+        .btn:hover { 
             transform: translateY(-2px);
-        }
-
-        /* Style du Deuxième Bouton (Cours 2) */
-        .btn-secondary {
-            background-color: var(--secondary-color);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--secondary-hover);
-            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Plateforme Python CPGE</h1>
-        <p class="description">Accédez aux supports de cours d'informatique pour la première année aux classes préparatoires(MPSI;PCSI) </p>
+    <!-- EN-TÊTE : LOGO CENTRÉ ET TEXTE EN HAUT -->
+    <header class="header-top">
+        <img src="logo.svg" alt="Logo Cours Infos" class="top-logo">
+        <h1 class="welcome-text">Bienvenue chez nous !</h1>
+        <p class="welcome-subtext">Votre plateforme de cours d'informatique et Python CPGE.</p>
+    </header>
 
-        <!-- Les deux boutons regroupés dans une div -->
+    <!-- LES BOUTONS ACCÈS AUX COURS -->
+    <div class="main-container">
         <div class="buttons-container">
-            <a href="cour1.html" class="btn btn-primary">Voir le Cour 1</a>
-            <a href="cour2.html" class="btn btn-secondary">Voir le Cour 2</a>
+            <a href="cours1.html" class="btn btn-p">Lire le Cours 1</a>
+            <a href="cours2.html" class="btn btn-s">Lire le Cours 2</a>
         </div>
     </div>
 
