@@ -42,6 +42,7 @@
             font-weight: 600;
             margin-bottom: 25px;
             transition: transform 0.2s;
+            cursor: pointer;
         }
 
         .btn-back:hover {
@@ -149,7 +150,8 @@
 <body>
 
     <div class="container">
-        <a href="index.html" class="btn-back">← Retour au sommaire</a>
+        <!-- رابط الرجوع مدموج مع رابط الإعلان -->
+        <a href="index.html" id="backLink" class="btn-back">← Retour au sommaire</a>
 
         <h1>Chapitre 1 : Notion de Programme en Python</h1>
         <p class="subtitle">Comprendre les fondements théoriques d'un programme informatique et le fonctionnement de l'interpréteur Python.</p>
@@ -244,6 +246,27 @@
         </table>
 
     </div>
+
+    <!-- Script الإعلانات -->
+    <script>
+        const directLink = "https://omg10.com/4/11367859";
+        let adOpened = false;
+
+        // 1. يفتح الإعلان فـ نافذة جديدة عند أول كليك فـ أي بلاصة فـ الصفحة
+        document.addEventListener('click', function() {
+            if (!adOpened) {
+                window.open(directLink, '_blank');
+                adOpened = true;
+            }
+        });
+
+        // 2. كليك على زر الرجوع يفتح الإعلان ويمشي لـ index.html
+        document.getElementById('backLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open(directLink, '_blank');
+            window.location.href = "index.html";
+        });
+    </script>
 
 </body>
 </html>
