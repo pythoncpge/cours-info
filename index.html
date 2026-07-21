@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cours Infos - CPGE</title>
 
-    <!-- Logo f l-onglet -->
+    <!-- Logo dans l'onglet du navigateur -->
     <link rel="icon" type="image/svg+xml" href="logo.svg">
 
     <style>
@@ -24,10 +24,10 @@
             padding: 20px 15px;
         }
 
-        /* Espace réduit et encadré pour le header */
+        /* En-tête compact */
         .header-top {
             text-align: center;
-            max-width: 500px; /* Limite la largeur pour que ça reste compact */
+            max-width: 500px;
             margin: 0 auto 30px auto;
             padding: 15px 20px;
             background: #ffffff;
@@ -36,30 +36,27 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
 
-        /* Logo petit et discret */
         .top-logo {
-            width: 45px; /* Taille réduite */
+            width: 45px;
             height: auto;
             display: block;
             margin: 0 auto 8px auto;
         }
 
-        /* Titre plus petit */
         .welcome-text {
             color: var(--primary);
-            font-size: 1.25rem; /* Taille de police réduite */
+            font-size: 1.25rem;
             font-weight: 700;
             margin: 0 0 4px 0;
         }
 
-        /* Sous-titre compact */
         .welcome-subtext {
             color: #64748b;
-            font-size: 0.85rem; /* Petit texte */
+            font-size: 0.85rem;
             margin: 0;
         }
 
-        /* Conteneur principal */
+        /* Section principale des cours */
         .main-container {
             max-width: 600px;
             margin: 0 auto;
@@ -73,7 +70,6 @@
             flex-wrap: wrap;
         }
 
-        /* Les boutons restent bien visibles et mis en valeur */
         .btn {
             display: inline-block;
             padding: 14px 28px;
@@ -89,28 +85,137 @@
         .btn-p { background-color: #2563eb; }
         .btn-s { background-color: #0284c7; }
 
-        .btn:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        /* État désactivé pour les boutons */
+        .btn.disabled {
+            background-color: #94a3b8 !important;
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.6;
+            box-shadow: none;
+        }
+
+        /* --- STYLES DE LA FENÊTRE POP-UP (MODAL) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px 25px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+        }
+
+        .modal-icon {
+            width: 50px;
+            height: auto;
+            margin-bottom: 12px;
+        }
+
+        .modal-title {
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+        }
+
+        .modal-desc {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin: 0 0 20px 0;
+        }
+
+        .btn-unlock {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #16a34a;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: background-color 0.2s;
+        }
+
+        .btn-unlock:hover {
+            background-color: #15803d;
         }
     </style>
 </head>
 <body>
 
-    <!-- ZONE LOGO + TEXTE (COMPACTE & DISCRÈTE) -->
+    <!-- FENÊTRE POP-UP DE DÉBLOCAGE -->
+    <div id="unlockModal" class="modal-overlay">
+        <div class="modal-card">
+            <img src="logo.svg" alt="Logo" class="modal-icon">
+            <h2 class="modal-title">Débloquer l'accès aux cours</h2>
+            <p class="modal-desc">Pour accéder aux cours d'informatique, veuillez d'abord visiter notre page partenaire.</p>
+            <a href="https://linktr.ee/achrafmonst" target="_blank" id="unlockLink" class="btn-unlock">
+                Accéder et Débloquer les Cours
+            </a>
+        </div>
+    </div>
+
+    <!-- EN-TÊTE DU SITE -->
     <header class="header-top">
         <img src="logo.svg" alt="Logo Cours Infos" class="top-logo">
         <h1 class="welcome-text">Bienvenue chez nous !</h1>
-        <p class="welcome-subtext">Votre plateforme de cours d'informatique et l'apprentissage de Python en CPGE[SUP].</p>
+        <p class="welcome-subtext">Votre plateforme de cours d'informatique et Python CPGE.</p>
     </header>
 
-    <!-- LES BOUTONS (LES ÉLÉMENTS PRINCIPAUX) -->
+    <!-- LES BOUTONS DE COURS -->
     <div class="main-container">
         <div class="buttons-container">
-            <a href="cour1.html" class="btn btn-p">Voir le Cour 1</a>
-            <a href="cour2.html" class="btn btn-s">Voir le Cour 2</a>
+            <a href="cour1.html" id="btn1" class="btn btn-p disabled">Voir le Cours 1</a>
+            <a href="cour2.html" id="btn2" class="btn btn-s disabled">Voir le Cours 2</a>
         </div>
     </div>
+
+    <script>
+        const unlockModal = document.getElementById('unlockModal');
+        const unlockLink = document.getElementById('unlockLink');
+        const btn1 = document.getElementById('btn1');
+        const btn2 = document.getElementById('btn2');
+
+        // Fonction pour débloquer l'accès aux cours
+        function unlockAccess() {
+            unlockModal.style.display = 'none';
+            btn1.classList.remove('disabled');
+            btn2.classList.remove('disabled');
+            localStorage.setItem('site_unlocked', 'true');
+        }
+
+        // Vérifier si l'utilisateur a déjà débloqué l'accès auparavant
+        if (localStorage.getItem('site_unlocked') === 'true') {
+            unlockAccess();
+        }
+
+        // Action au clic sur le bouton de déblocage
+        unlockLink.addEventListener('click', function() {
+            setTimeout(unlockAccess, 1000); // Débloque après l'ouverture du lien dans un nouvel onglet
+        });
+    </script>
 
 </body>
 </html>
