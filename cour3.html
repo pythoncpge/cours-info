@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Variables en Python - Cours CPGE</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --success: #16a34a;
+            --success-bg: #f0fdf4;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --border: #e2e8f0;
+            --code-bg: #1e293b;
+            --code-text: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .hero {
+            text-align: center;
+            background: var(--bg-card);
+            padding: 30px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Cards Section */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 8px;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.95rem;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+
+        code {
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .inline-code {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Grid for Rules */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .rule-box {
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid transparent;
+        }
+
+        .rule-box.valid {
+            background-color: var(--success-bg);
+            border-color: #bbf7d0;
+        }
+
+        .rule-box.invalid {
+            background-color: var(--danger-bg);
+            border-color: #fecaca;
+        }
+
+        .rule-box h4 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rule-box.valid h4 { color: var(--success); }
+        .rule-box.invalid h4 { color: var(--danger); }
+
+        /* List Styling */
+        ul {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Table Design */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        .comment {
+            color: #94a3b8;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Hero Title -->
+    <header class="hero">
+        <h1>💡 Les Variables en Python</h1>
+        <p>Définition, règles de nommage, affectation et types de données</p>
+    </header>
+
+    <!-- 1. Définition -->
+    <section class="card">
+        <h2 class="card-title">🧩 1. Définition</h2>
+        <p>
+            Une <strong>variable</strong> est un espace nommé dans la mémoire de l'ordinateur permettant de <strong>stocker une valeur</strong> afin de la réutiliser ultérieurement dans votre programme.
+        </p>
+        <p style="margin-top: 10px;">
+            <em>Analogie :</em> On peut imaginer une variable comme une <strong>boîte étiquetée</strong>. La boîte contient la valeur, et l'étiquette (le nom) permet d'y accéder.
+        </p>
+        <pre><code><span class="comment"># Exemples d'initialisation de variables</span>
+note_examen = 18.5
+nom_etudiant = "Youssef"</code></pre>
+        <p>Ici, <span class="inline-code">note_examen</span> contient la valeur numérique <strong>18.5</strong> et <span class="inline-code">nom_etudiant</span> contient la chaîne de caractères <strong>"Youssef"</strong>.</p>
+    </section>
+
+    <!-- 2. Règles de Nommage -->
+    <section class="card">
+        <h2 class="card-title">🧠 2. Règles de nommage</h2>
+        <ul>
+            <li>Doit commencer par une <strong>lettre</strong> (a-z, A-Z) ou un <strong>underscore</strong> (<span class="inline-code">_</span>).</li>
+            <li>Ne doit <strong>jamais commencer par un chiffre</strong>.</li>
+            <li>Ne peut contenir <strong>ni espaces ni caractères spéciaux</strong> (sauf <span class="inline-code">_</span>).</li>
+            <li>Sensible à la casse : <span class="inline-code">Score</span>, <span class="inline-code">score</span> et <span class="inline-code">SCORE</span> sont 3 variables distinctes.</li>
+        </ul>
+
+        <div class="grid-2">
+            <div class="rule-box valid">
+                <h4>✅ Exemples valides</h4>
+                <pre><code>x = 10
+moyenne_general = 15.25
+_valeur_temp = 30</code></pre>
+            </div>
+            <div class="rule-box invalid">
+                <h4>❌ Exemples invalides</h4>
+                <pre><code>1er_nombre = 5   <span class="comment"># Débute par un chiffre</span>
+nom complet = "A" <span class="comment"># Contient un espace</span>
+prix€ = 100       <span class="comment"># Caractère interdit (€)</span></code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Affectation des Valeurs -->
+    <section class="card">
+        <h2 class="card-title">⚙️ 3. Affectation de valeurs</h2>
+        <p>L'affectation se fait grâce à l'opérateur d'égalité <span class="inline-code">=</span> :</p>
+        <pre><code>a = 42
+pi = 3.14159
+message = "Bienvenue en CPGE !"
+
+<span class="comment"># Affichage dans la console</span>
+print(a)
+print("Valeur de pi :", pi)</code></pre>
+
+        <h3 style="margin-top: 20px; font-size: 1.1rem; color: var(--primary);">🔄 Affectations multiples & Échange</h3>
+        <pre><code><span class="comment"># 1. Affectation multiple simultanée</span>
+x, y, z = 10, 20, 30
+
+<span class="comment"># 2. Échange direct de deux variables (Swap)</span>
+a, b = 5, 9
+a, b = b, a  <span class="comment"># Maintenant a vaut 9 et b vaut 5</span>
+
+<span class="comment"># 3. Même valeur pour plusieurs variables</span>
+p1 = p2 = p3 = 0</code></pre>
+    </section>
+
+    <!-- 4. Types de données -->
+    <section class="card">
+        <h2 class="card-title">📦 4. Types de données fondamentaux</h2>
+        <p>Python est un langage à <strong>typage dynamique</strong> : le type de la variable est déterminé automatiquement selon la valeur attribuée.</p>
+        <pre><code>nom = "Sara"       <span class="comment"># str (String / Chaîne de caractères)</span>
+age = 19           <span class="comment"># int (Integer / Entier)</span>
+note = 16.75       <span class="comment"># float (Nombre à virgule flottante)</span>
+est_inscrit = True <span class="comment"># bool (Boolean / Vrai ou Faux)</span></code></pre>
+    </section>
+
+    <!-- 5. Résumé -->
+    <section class="card">
+        <h2 class="card-title">📚 5. L'essentiel </h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Notion</th>
+                        <th>Rôle / Règle</th>
+                        <th>Exemple Python</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Définition</strong></td>
+                        <td>Stocke une donnée en mémoire sous un nom précis</td>
+                        <td><span class="inline-code">val = 100</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Affectation</strong></td>
+                        <td>Assigne une valeur à l'aide du symbole <span class="inline-code">=</span></td>
+                        <td><span class="inline-code">nom = "Python"</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nommage</strong></td>
+                        <td>Pas de chiffres au début, pas d'espaces, casse sensible</td>
+                        <td><span class="inline-code">mon_score_2</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Types de base</strong></td>
+                        <td><span class="inline-code">int</span>, <span class="inline-code">float</span>, <span class="inline-code">str</span>, <span class="inline-code">bool</span></td>
+                        <td><span class="inline-code">age = 20</span>, <span class="inline-code">p = True</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
