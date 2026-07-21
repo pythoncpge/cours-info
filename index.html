@@ -68,14 +68,17 @@
 
         .buttons-container {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            max-width: 320px;
+            margin: 0 auto;
         }
 
         .btn {
-            display: inline-block;
-            padding: 14px 28px;
+            display: block;
+            width: 100%;
+            padding: 14px 20px;
             font-size: 1.05rem;
             font-weight: 600;
             text-decoration: none;
@@ -83,10 +86,14 @@
             border-radius: 10px;
             transition: all 0.2s ease;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-sizing: border-box;
+            text-align: center;
         }
 
-        .btn-p { background-color: #2563eb; }
-        .btn-s { background-color: #0284c7; }
+        .btn-1 { background-color: #2563eb; }
+        .btn-2 { background-color: #0284c7; }
+        .btn-3 { background-color: #0d9488; }
+        .btn-4 { background-color: #7c3aed; }
 
         /* État désactivé pour les boutons */
         .btn.disabled {
@@ -190,22 +197,24 @@
     <!-- LES BOUTONS DE COURS -->
     <div class="main-container">
         <div class="buttons-container">
-            <a href="cour1.html" id="btn1" class="btn btn-p disabled">Voir le Cour 1</a>
-            <a href="cour2.html" id="btn2" class="btn btn-s disabled">Voir le Cour 2</a>
+            <a href="cour1.html" id="btn1" class="btn btn-1 disabled">Voir le Cour 1</a>
+            <a href="cour2.html" id="btn2" class="btn btn-2 disabled">Voir le Cour 2</a>
+            <a href="cour3.html" id="btn3" class="btn btn-3 disabled">Voir le Cour 3</a>
+            <a href="cour4.html" id="btn4" class="btn btn-4 disabled">Voir le Cour 4</a>
         </div>
     </div>
 
     <script>
         const unlockModal = document.getElementById('unlockModal');
         const unlockLink = document.getElementById('unlockLink');
-        const btn1 = document.getElementById('btn1');
-        const btn2 = document.getElementById('btn2');
+        
+        // Sélection de tous les boutons de cours
+        const courseButtons = document.querySelectorAll('.buttons-container .btn');
 
         // Fonction pour débloquer l'accès aux cours
         function unlockAccess() {
             unlockModal.style.display = 'none';
-            btn1.classList.remove('disabled');
-            btn2.classList.remove('disabled');
+            courseButtons.forEach(btn => btn.classList.remove('disabled'));
             localStorage.setItem('site_unlocked', 'true');
         }
 
@@ -216,7 +225,7 @@
 
         // Action au clic sur le bouton de déblocage
         unlockLink.addEventListener('click', function() {
-            setTimeout(unlockAccess, 1000); // Débloque après l'ouverture du lien dans un nouvel onglet
+            setTimeout(unlockAccess, 1000); // Débloque après l'ouverture du lien
         });
     </script>
 
