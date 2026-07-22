@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cours Infos - CPGE</title>
 
-    <!-- Code de vérification Monetag (Le Nouveau) -->
+    <!-- Code de vérification Monetag -->
     <meta name="monetag" content="e0ce6236b5fcc7f0b36139e4782c3b97">
 
     <!-- Logo dans l'onglet du navigateur -->
     <link rel="icon" type="image/svg+xml" href="logo.svg">
 
-    <!-- Lien vers le fichier Manifest (Pour PWABuilder / PWA) -->
+    <!-- Manifest (PWA) -->
     <link rel="manifest" href="manifest.json">
 
     <style>
@@ -30,11 +30,52 @@
             padding: 20px 15px;
         }
 
+        /* --- شريط التقدم والنسبة المئوية --- */
+        .progress-card {
+            max-width: 500px;
+            margin: 0 auto 20px auto;
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .progress-percent {
+            color: #10b981;
+            font-size: 1.05rem;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #2563eb, #10b981);
+            transition: width 0.5s ease-in-out;
+        }
+
         /* En-tête compact */
         .header-top {
             text-align: center;
             max-width: 500px;
-            margin: 0 auto 30px auto;
+            margin: 0 auto 25px auto;
             padding: 15px 20px;
             background: #ffffff;
             border: 1px solid var(--border);
@@ -64,25 +105,21 @@
 
         /* Section principale des cours */
         .main-container {
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto;
-            text-align: center;
         }
 
-        .buttons-container {
+        .course-row {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            max-width: 320px;
-            margin: 0 auto;
+            gap: 10px;
+            margin-bottom: 12px;
+            width: 100%;
         }
 
         .btn {
             display: block;
-            width: 100%;
-            padding: 14px 20px;
-            font-size: 1.05rem;
+            padding: 14px 15px;
+            font-size: 0.95rem;
             font-weight: 600;
             text-decoration: none;
             color: #ffffff;
@@ -91,6 +128,15 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             box-sizing: border-box;
             text-align: center;
+        }
+
+        .btn-course {
+            flex: 2;
+        }
+
+        .btn-app {
+            flex: 1;
+            background-color: #0f172a !important;
         }
 
         .btn-1 { background-color: #2563eb; }
@@ -190,6 +236,17 @@
         </div>
     </div>
 
+    <!-- CARTE DE PROGRESSION GLOBAL -->
+    <div class="progress-card">
+        <div class="progress-info">
+            <span>Progression du programme</span>
+            <span id="progressPercent" class="progress-percent">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div id="progressBarFill" class="progress-bar-fill"></div>
+        </div>
+    </div>
+
     <!-- EN-TÊTE DU SITE -->
     <header class="header-top">
         <img src="logo.svg" alt="Logo Cours Infos" class="top-logo">
@@ -197,13 +254,26 @@
         <p class="welcome-subtext">La plateforme est consacrée aux cours d'informatique en CPGE-SUP.</p>
     </header>
 
-    <!-- LES BOUTONS DE COURS -->
+    <!-- LES BOUTONS DE COURS ET APPLICATIONS -->
     <div class="main-container">
-        <div class="buttons-container">
-            <a href="cour1.html" id="btn1" class="btn btn-1 disabled">Voir le Cour 1</a>
-            <a href="cour2.html" id="btn2" class="btn btn-2 disabled">Voir le Cour 2</a>
-            <a href="cour3.html" id="btn3" class="btn btn-3 disabled">Voir le Cour 3</a>
-            <a href="cour4.html" id="btn4" class="btn btn-4 disabled">Voir le Cour 4</a>
+        <div class="course-row">
+            <a href="cour1.html" id="btn1" class="btn btn-1 btn-course disabled">Voir le Cour 1</a>
+            <a href="app1.html" id="app1" class="btn btn-app disabled">🧪 App 1</a>
+        </div>
+
+        <div class="course-row">
+            <a href="cour2.html" id="btn2" class="btn btn-2 btn-course disabled">Voir le Cour 2</a>
+            <a href="app2.html" id="app2" class="btn btn-app disabled">🧪 App 2</a>
+        </div>
+
+        <div class="course-row">
+            <a href="cour3.html" id="btn3" class="btn btn-3 btn-course disabled">Voir le Cour 3</a>
+            <a href="app3.html" id="app3" class="btn btn-app disabled">🧪 App 3</a>
+        </div>
+
+        <div class="course-row">
+            <a href="cour4.html" id="btn4" class="btn btn-4 btn-course disabled">Voir le Cour 4</a>
+            <a href="app4.html" id="app4" class="btn btn-app disabled">🧪 App 4</a>
         </div>
     </div>
 
@@ -211,13 +281,13 @@
         const unlockModal = document.getElementById('unlockModal');
         const unlockLink = document.getElementById('unlockLink');
         
-        // Sélection de tous les boutons de cours
-        const courseButtons = document.querySelectorAll('.buttons-container .btn');
+        // Sélection de tous les boutons (cours + applications)
+        const allButtons = document.querySelectorAll('.main-container .btn');
 
         // Fonction pour débloquer l'accès aux cours
         function unlockAccess() {
             unlockModal.style.display = 'none';
-            courseButtons.forEach(btn => btn.classList.remove('disabled'));
+            allButtons.forEach(btn => btn.classList.remove('disabled'));
             localStorage.setItem('site_unlocked', 'true');
         }
 
@@ -228,8 +298,28 @@
 
         // Action au clic sur le bouton de déblocage
         unlockLink.addEventListener('click', function() {
-            setTimeout(unlockAccess, 1000); // Débloque après l'ouverture du lien
+            setTimeout(unlockAccess, 1000);
         });
+
+        // Calcul automatique de la progression globale (%)
+        function updateOverallProgress() {
+            const totalModules = 4; // عدد الدروس الإجمالي
+            let completedModules = 0;
+
+            for (let i = 1; i <= totalModules; i++) {
+                if (localStorage.getItem(`cour${i}_completed`) === 'true' || localStorage.getItem(`app${i}_completed`) === 'true') {
+                    completedModules++;
+                }
+            }
+
+            const percentage = Math.round((completedModules / totalModules) * 100);
+            
+            document.getElementById('progressBarFill').style.width = percentage + '%';
+            document.getElementById('progressPercent').innerText = percentage + '%';
+        }
+
+        // Mettre à jour la barre au chargement de la page
+        updateOverallProgress();
     </script>
 
 </body>
