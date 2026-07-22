@@ -144,9 +144,25 @@
         .btn-3 { background-color: #0d9488; }
         .btn-4 { background-color: #7c3aed; }
 
+        /* --- Bouton Quiz Principal (Testez vos connaissances) --- */
+        .btn-quiz {
+            margin-top: 20px;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            font-size: 1.05rem;
+            font-weight: 700;
+            padding: 16px;
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
+            border: none;
+        }
+
+        .btn-quiz:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
         /* État désactivé pour les boutons */
         .btn.disabled {
-            background-color: #94a3b8 !important;
+            background: #94a3b8 !important;
             cursor: not-allowed;
             pointer-events: none;
             opacity: 0.6;
@@ -275,13 +291,18 @@
             <a href="cour4.html" id="btn4" class="btn btn-4 btn-course disabled">Voir le Cour 4</a>
             <a href="app4.html" id="app4" class="btn btn-app disabled">🧪 App4 </a>
         </div>
+
+        <!-- LE BOUTON PRINCIPAL DU QUIZ GLOBAL -->
+        <a href="quiz-global.html" id="btnQuiz" class="btn btn-quiz disabled">
+            🧠 Testez vos connaissances
+        </a>
     </div>
 
     <script>
         const unlockModal = document.getElementById('unlockModal');
         const unlockLink = document.getElementById('unlockLink');
         
-        // Sélection de tous les boutons (cours + applications)
+        // Sélection de tous les boutons (cours + applications + quiz)
         const allButtons = document.querySelectorAll('.main-container .btn');
 
         // Fonction pour débloquer l'accès aux cours
