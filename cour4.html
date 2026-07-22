@@ -4,7 +4,11 @@
     <link rel="icon" type="image/svg+xml" href="logo.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapitre 4 : Entrées & Sorties en Python - Python CPGE</title>
+    <title>Chapitre 4 : Entrées & Sorties - Python CPGE</title>
+
+    <!-- تحميل محرك Pyodide لتشغيل Python في المتصفح -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+
     <style>
         :root {
             --primary-color: #1b4965;
@@ -25,9 +29,26 @@
             padding: 30px 15px;
         }
 
+        /* --- شريط التقدم ثابت في الأعلى --- */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            z-index: 1000;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #2563eb, #10b981);
+            transition: width 0.3s ease;
+        }
+
         .container {
             max-width: 850px;
-            margin: 0 auto;
+            margin: 20px auto 0 auto;
             background: var(--card-bg);
             padding: 40px;
             border-radius: 12px;
@@ -41,241 +62,175 @@
             text-decoration: none;
             font-weight: 600;
             margin-bottom: 25px;
-            transition: transform 0.2s;
             cursor: pointer;
         }
 
-        .btn-back:hover {
-            transform: translateX(-4px);
-        }
-
-        h1 {
-            color: var(--primary-color);
-            font-size: 2rem;
-            border-bottom: 3px solid var(--secondary-color);
-            padding-bottom: 12px;
-            margin-top: 0;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: #6c757d;
-            margin-top: -10px;
-            margin-bottom: 30px;
-        }
-
-        h2 {
-            color: var(--primary-color);
-            font-size: 1.4rem;
-            margin-top: 35px;
-            border-left: 4px solid var(--accent-color);
-            padding-left: 10px;
-        }
-
-        h3 {
-            color: #34495e;
-            font-size: 1.15rem;
-            margin-top: 20px;
-        }
-
-        p, li {
-            font-size: 1.05rem;
-        }
-
-        ul, ol {
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
+        h1 { color: var(--primary-color); margin-top: 0; }
+        
         .code-block {
             background-color: var(--code-bg);
             color: #d4d4d4;
-            padding: 18px;
+            padding: 15px;
             border-radius: 8px;
-            font-family: 'Consolas', 'Courier New', monospace;
+            font-family: 'Consolas', monospace;
             font-size: 0.95rem;
-            overflow-x: auto;
             margin: 15px 0;
         }
 
-        .code-keyword { color: #569cd6; }
-        .code-string { color: #ce9178; }
-        .code-comment { color: #6a9955; font-style: italic; }
-        .code-number { color: #b5cea8; }
-
-        .output-block {
-            background-color: #e9ecef;
-            border-left: 4px solid #6c757d;
-            padding: 12px 18px;
-            border-radius: 0 6px 6px 0;
-            font-family: monospace;
-            margin-bottom: 20px;
+        /* --- ديزاين نافذة التطبيق التفاعلي --- */
+        .interactive-box {
+            background: #0f172a;
+            color: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 40px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
-        .inline-code {
-            background-color: #e9ecef;
-            color: #d63384;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9em;
+        .interactive-box h3 {
+            margin-top: 0;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* التصميم الجديد للبطاقات التلخيصية (Affiche) */
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .summary-card {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            border-top: 4px solid var(--accent-color);
+        .interactive-box textarea {
+            width: 100%;
+            height: 110px;
+            background: #1e293b;
+            color: #f8fafc;
+            border: 1px solid #334155;
             border-radius: 8px;
-            padding: 18px;
-        }
-
-        .summary-card h4 {
-            margin: 0 0 8px 0;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-        }
-
-        .summary-card p {
+            padding: 12px;
+            font-family: 'Consolas', monospace;
             font-size: 0.95rem;
-            margin: 0 0 10px 0;
-            color: #475569;
+            box-sizing: border-box;
+            resize: vertical;
         }
+
+        .btn-run {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background 0.2s;
+        }
+        .btn-run:hover { background: #1d4ed8; }
+
+        .result-box {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: none;
+        }
+        .status-success { background: #166534; color: #dcfce7; }
+        .status-error { background: #991b1b; color: #fee2e2; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <a href="index.html" id="backLink" class="btn-back">← Retour au sommaire</a>
-
-        <h1>Chapitre 4 : Les Entrées et Sorties (I/O) en Python</h1>
-        <p class="subtitle">Interagir avec l'utilisateur : récupérer des données de saisie et structurer l'affichage des résultats.</p>
-
-        <h2>1. Lecture des données : La fonction input()</h2>
-        <p>L'interaction utilisateur repose sur la récupération d'informations externes. La fonction prédéfinie <span class="inline-code">input()</span> met le programme en attente d'une saisie au clavier jusqu'à ce que la touche Entrée soit pressée.</p>
-
-        <div class="code-block">
-            <span class="code-keyword">print</span>(<span class="code-string">"Initialisation du programme..."</span>)<br>
-            utilisateur = <span class="code-keyword">input</span>(<span class="code-string">"Saisissez votre pseudo : "</span>)
-        </div>
-        <strong>Affichage dans le terminal :</strong>
-        <div class="output-block">
-            Initialisation du programme...<br>
-            Saisissez votre pseudo : Alex
-        </div>
-
-        <h2>2. Gestion des types et conversion des données</h2>
-        <p>La fonction <span class="inline-code">input()</span> renvoie <strong>toujours</strong> une valeur de type chaîne de caractères (<span class="inline-code">str</span>). Pour effectuer des opérations arithmétiques, il est indispensable de procéder à un cast (conversion explicite de type).</p>
-
-        <h3>A. Problématique du typage par défaut</h3>
-        <div class="code-block">
-            age = <span class="code-keyword">input</span>(<span class="code-string">"Quel est votre âge ? "</span>)<br>
-            <span class="code-comment"># Provoque une erreur TypeError si on tente : print(age + 1)</span>
-        </div>
-
-        <h3>B. Application du cast (Conversion)</h3>
-        <div class="code-block">
-            <span class="code-comment"># Conversion directe en entier (int)</span><br>
-            valeur_age = <span class="code-keyword">int</span>(<span class="code-keyword">input</span>(<span class="code-string">"Entrez votre âge : "</span>))<br>
-            <span class="code-keyword">print</span>(<span class="code-string">"Dans un an, vous aurez :"</span>, valeur_age + <span class="code-number">1</span>, <span class="code-string">"ans."</span>)<br>
-            <br>
-            <span class="code-comment"># Exemples pour d'autres types réels ou booléens</span><br>
-            note = <span class="code-keyword">float</span>(<span class="code-keyword">input</span>(<span class="code-string">"Note du DS (ex: 15.5) : "</span>))<br>
-            statut = <span class="code-keyword">bool</span>(<span class="code-keyword">int</span>(<span class="code-keyword">input</span>(<span class="code-string">"Actif (1) ou Inactif (0) : "</span>)))
-        </div>
-
-        <h2>3. Affichage des résultats : La fonction print()</h2>
-        <p>La sortie standard s'effectue via <span class="inline-code">print()</span>. On peut lui passer un ou plusieurs arguments séparés par des virgules.</p>
-
-        <div class="code-block">
-            nom = <span class="code-string">"Sophie"</span><br>
-            score = <span class="code-number">95</span><br>
-            <span class="code-keyword">print</span>(<span class="code-string">"Candidat :"</span>, nom, <span class="code-string">"| Note obtenue :"</span>, score)
-        </div>
-        <strong>Résultat d'exécution :</strong>
-        <div class="output-block">
-            Candidat : Sophie | Note obtenue : 95
-        </div>
-
-        <h2>4. Paramètres avancés de print()</h2>
-        <p>Il est possible de modifier le comportement d'affichage grâce aux arguments optionnels <span class="inline-code">sep</span> (séparateur d'éléments) et <span class="inline-code">end</span> (caractère de fin de ligne).</p>
-
-        <div class="code-block">
-            <span class="code-comment"># Personnalisation du séparateur avec sep</span><br>
-            <span class="code-keyword">print</span>(<span class="code-string">"2026"</span>, <span class="code-string">"07"</span>, <span class="code-string">"22"</span>, sep=<span class="code-string">"/"</span>)<br>
-            <span class="code-comment"># Sortie : 2026/07/22</span><br>
-            <br>
-            <span class="code-comment"># Empêcher le retour à la ligne automatique avec end</span><br>
-            <span class="code-keyword">print</span>(<span class="code-string">"Chargement"</span>, end=<span class="code-string">"..."</span>)<br>
-            <span class="code-keyword">print</span>(<span class="code-string">"Terminé !"</span>)<br>
-            <span class="code-comment"># Sortie : Chargement...Terminé !</span>
-        </div>
-
-        <h2>5. Exemple d'application globale</h2>
-        <div class="code-block">
-            prenom = <span class="code-keyword">input</span>(<span class="code-string">"Entrez votre prénom : "</span>)<br>
-            annee_naissance = <span class="code-keyword">int</span>(<span class="code-keyword">input</span>(<span class="code-string">"Année de naissance : "</span>))<br>
-            age_calcule = <span class="code-number">2026</span> - annee_naissance<br>
-            <span class="code-keyword">print</span>(<span class="code-string">"Ravi de vous rencontrer"</span>, prenom, <span class="code-string">"!"</span>, <span class="code-string">"Vous avez environ"</span>, age_calcule, <span class="code-string">"ans."</span>)
-        </div>
-
-        <h2>6. Fiche Mémorisation (Synthèse)</h2>
-        <div class="summary-grid">
-            <div class="summary-card">
-                <h4>📥 Entrée Standard</h4>
-                <p>Lecture des données saisies par l'utilisateur au clavier.</p>
-                <div class="inline-code">variable = input("Message")</div>
-            </div>
-
-            <div class="summary-card">
-                <h4>🔄 Transtypage (Cast)</h4>
-                <p>Convertit la chaîne lue en type numérique requis.</p>
-                <div class="inline-code">int(), float(), str()</div>
-            </div>
-
-            <div class="summary-card">
-                <h4>📤 Sortie Standard</h4>
-                <p>Publication et évaluation des expressions dans la console.</p>
-                <div class="inline-code">print(valeur1, valeur2)</div>
-            </div>
-
-            <div class="summary-card">
-                <h4>⚙️ Options d'Affichage</h4>
-                <p>Formatage fin pour les séparateurs et fins de lignes.</p>
-                <div class="inline-code">sep="...", end="..."</div>
-            </div>
-        </div>
-
+    <!-- شريط التقدم -->
+    <div class="progress-container">
+        <div class="progress-bar" id="myProgressBar"></div>
     </div>
 
-    <!-- Script Direct Link -->
+    <div class="container">
+        <a href="index.html" class="btn-back">← Retour au sommaire</a>
+
+        <h1>Chapitre 4 : Les Entrées et Sorties (I/O) en Python</h1>
+        <p>Découvrez comment utiliser <code>input()</code> et <code>print()</code> pour interagir avec vos programmes.</p>
+
+        <!-- أمثلة الدرس -->
+        <div class="code-block">
+            age = int(input("Quel est votre âge ? "))<br>
+            print("Vous aurez bientôt :", age + 1, "ans.")
+        </div>
+
+        <!-- نافذة التطبيق التفاعلي المباشر -->
+        <div class="interactive-box">
+            <h3>🧪 Application Pratique</h3>
+            <p style="font-size: 0.95rem; color: #cbd5e1;">
+                <b>Exercice :</b> Écrivez un script qui demande l'année de naissance et affiche l'âge en 2026.<br>
+                <i>(Exemple attendu si l'année est 2004 : <b>22</b>)</i>
+            </p>
+
+            <textarea id="userCode" placeholder="Tapez votre code Python ici...">annee = 2004
+age = 2026 - annee
+print(age)</textarea>
+
+            <button class="btn-run" onclick="runPythonCode()">Exécuter & Vérifier 🚀</button>
+
+            <div id="outputSuccess" class="result-box status-success"></div>
+            <div id="outputError" class="result-box status-error"></div>
+        </div>
+    </div>
+
+    <!-- Script للتحكم في شريط التقدم و Pyodide -->
     <script>
-        const directLink = "https://omg10.com/4/11367859";
-        let adOpened = false;
+        // 1. حساب شريط التقدم حسب التمرير (Scroll Progress)
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("myProgressBar").style.width = scrolled + "%";
+        };
 
-        document.addEventListener('click', function() {
-            if (!adOpened) {
-                window.open(directLink, '_blank');
-                adOpened = true;
+        // 2. تشغيل واختبار كود Python
+        let pyodideInstance = null;
+
+        async function initPyodide() {
+            if (!pyodideInstance) {
+                pyodideInstance = await loadPyodide();
             }
-        });
+        }
+        initPyodide();
 
-        document.getElementById('backLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open(directLink, '_blank');
-            window.location.href = "index.html";
-        });
+        async function runPythonCode() {
+            const successBox = document.getElementById("outputSuccess");
+            const errorBox = document.getElementById("outputError");
+            
+            successBox.style.display = "none";
+            errorBox.style.display = "none";
+
+            if (!pyodideInstance) {
+                alert("Le moteur Python est en cours de chargement, veuillez patienter une seconde...");
+                return;
+            }
+
+            const code = document.getElementById("userCode").value;
+            const expectedOutput = "22"; // النتيجة المنتظرة للتمرين
+
+            try {
+                // إعادة توجيه print() لتلقي النتيجة
+                pyodideInstance.runPython(`
+                    import sys, io
+                    sys.stdout = io.StringIO()
+                `);
+
+                await pyodideInstance.runPythonAsync(code);
+                let output = pyodideInstance.runPython("sys.stdout.getvalue()").trim();
+
+                if (output === expectedOutput) {
+                    successBox.innerHTML = "✅ Bravo ! Code correct. Résultat : " + output;
+                    successBox.style.display = "block";
+                    
+                    // حفظ إتمام الدرس فـ localStorage
+                    localStorage.setItem('cour4_completed', 'true');
+                } else {
+                    errorBox.innerHTML = "❌ Erreur ! Résultat obtenu : <b>" + output + "</b> (Attendu : " + expectedOutput + ")";
+                    errorBox.style.display = "block";
+                }
+            } catch (err) {
+                errorBox.innerHTML = "⚠️ Erreur dans votre code Python :<br><small>" + err.message.split('\n').pop() + "</small>";
+                errorBox.style.display = "block";
+            }
+        }
     </script>
-
 </body>
 </html>
