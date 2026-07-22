@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Python - CPGE</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .quiz-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
+            width: 100%;
+            padding: 30px;
+        }
+
+        .quiz-header {
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-header h1 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 22px;
+        }
+
+        .progress {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            color: #334155;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background-color: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 15px;
+            color: #1e293b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .option-btn.correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+            color: #b91c1c;
+            font-weight: bold;
+        }
+
+        .feedback-message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: none;
+            text-align: center;
+        }
+
+        .feedback-message.correct-bg {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        .feedback-message.incorrect-bg {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .actions {
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .next-btn {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: none;
+        }
+
+        .next-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .score-board {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .score-board h2 {
+            color: #1e293b;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .score-number {
+            font-size: 40px;
+            font-weight: bold;
+            color: #2563eb;
+            margin: 15px 0;
+        }
+
+        .restart-btn {
+            background-color: #0f172a;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .restart-btn:hover {
+            background-color: #334155;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-card" id="quiz-card">
+    <div class="quiz-header">
+        <h1>Quiz Python : Chapitres 2, 3 & 4</h1>
+        <div class="progress" id="progress-text">Question 1 / 10</div>
+    </div>
+
+    <div id="quiz-body">
+        <div class="question-text" id="question-text"></div>
+        <div class="options-grid" id="options-container"></div>
+        <div class="feedback-message" id="feedback"></div>
+        <div class="actions">
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">السؤال التالي ➔</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {
+            question: "1. Quel type est utilisé en Python pour représenter le nombre complexe 2 + 3j ?",
+            options: ["float", "complex", "int", "tuple"],
+            answer: 1
+        },
+        {
+            question: "2. Laquelle de ces structures de données est modifiable (mutable) ?",
+            options: ["tuple", "str", "list", "int"],
+            answer: 2
+        },
+        {
+            question: "3. Quel nom de variable est VALIDE en Python ?",
+            options: ["1er_nombre", "_valeur_temp", "nom complet", "prix€"],
+            answer: 1
+        },
+        {
+            question: "4. Que font ces lignes de code ? <br><code>a, b = 5, 9<br>a, b = b, a</code>",
+            options: [
+                "Elles provoquent une erreur de syntaxe",
+                "Elles attribuent 9 à a et b",
+                "Elles échangent les valeurs de a et b (Swap)",
+                "Elles créent un tuple de 4 éléments"
+            ],
+            answer: 2
+        },
+        {
+            question: "5. Que renvoie systématiquement la fonction input() ?",
+            options: ["Un entier (int)", "Un flottant (float)", "Un booléen (bool)", "Une chaîne de caractères (str)"],
+            answer: 3
+        },
+        {
+            question: "6. Comment convertir une saisie utilisateur en nombre à virgule ?",
+            options: ["float(input())", "int(input())", "str(input())", "cast(input())"],
+            answer: 0
+        },
+        {
+            question: "7. Quel sera l'affichage de : <code>print('2026', '07', '22', sep='/')</code> ?",
+            options: ["2026 07 22 /", "2026/07/22", "2026 07 22", "2026/07/22/"],
+            answer: 1
+        },
+        {
+            question: "8. Quel argument de print() permet d'éviter le retour à la ligne automatique ?",
+            options: ["sep", "end", "stop", "line"],
+            answer: 1
+        },
+        {
+            question: "9. Quelle est la particularité d'un Ensemble (set) en Python ?",
+            options: [
+                "Il est toujours ordonné",
+                "C'est une collection d'éléments uniques",
+                "Il associe des clés et des valeurs",
+                "Il est immutable"
+            ],
+            answer: 1
+        },
+        {
+            question: "10. Python est un langage à typage :",
+            options: ["Statique", "Manuel", "Dynamique", "Strict"],
+            answer: 2
+        }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        resetState();
+        const q = questions[currentIndex];
+        
+        document.getElementById('progress-text').innerText = `Question ${currentIndex + 1} / ${questions.length}`;
+        document.getElementById('question-text').innerHTML = q.question;
+
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+
+        q.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.classList.add('option-btn');
+            btn.innerHTML = opt;
+            btn.onclick = () => checkAnswer(btn, idx);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function resetState() {
+        const feedback = document.getElementById('feedback');
+        feedback.style.display = 'none';
+        feedback.className = 'feedback-message';
+        document.getElementById('next-btn').style.display = 'none';
+    }
+
+    function checkAnswer(selectedBtn, selectedIndex) {
+        const q = questions[currentIndex];
+        const buttons = document.querySelectorAll('.option-btn');
+        const feedback = document.getElementById('feedback');
+
+        buttons.forEach(btn => btn.disabled = true);
+
+        if (selectedIndex === q.answer) {
+            selectedBtn.classList.add('correct');
+            feedback.innerText = "إجابة صحيحة ! Bravo ✅";
+            feedback.classList.add('correct-bg');
+            score++;
+        } else {
+            selectedBtn.classList.add('incorrect');
+            buttons[q.answer].classList.add('correct');
+            feedback.innerText = "إجابة خاطئة ! ❌";
+            feedback.classList.add('incorrect-bg');
+        }
+
+        feedback.style.display = 'block';
+        document.getElementById('next-btn').style.display = 'inline-block';
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        if (currentIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    function showFinalScore() {
+        const quizCard = document.getElementById('quiz-card');
+        quizCard.innerHTML = `
+            <div class="score-board">
+                <h2>مبروك ! كملتي الـ Quiz 🎯</h2>
+                <p style="color: #64748b;">النتيجة النهائية ديالك هي:</p>
+                <div class="score-number">${score} / ${questions.length}</div>
+                <button class="restart-btn" onclick="location.reload()">إعادة الاختبار 🔄</button>
+            </div>
+        `;
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
