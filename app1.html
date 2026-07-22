@@ -1,186 +1,210 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="icon" type="image/svg+xml" href="logo.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Chapitre 1 - Python CPGE</title>
-
-    <!-- محرك Pyodide لتشغيل Python في المتصفح -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
-
+    <title>Quiz Interactive - Cour 1</title>
     <style>
-        :root {
-            --primary-color: #1b4965;
-            --accent-color: #0077b6;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-        }
-
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
         }
 
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
-
-        .btn-back {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 20px;
-            transition: transform 0.2s;
-        }
-
-        .btn-back:hover {
-            transform: translateX(-4px);
-        }
-
-        .interactive-box {
-            background: #0f172a;
-            color: #fff;
-            border-radius: 12px;
+        .quiz-container {
+            background-color: #ffffff;
             padding: 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
         }
 
-        .interactive-box textarea {
-            width: 100%;
-            height: 120px;
-            background: #1e293b;
-            color: #f8fafc;
-            border: 1px solid #334155;
-            border-radius: 8px;
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .counter {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #34495e;
+            min-height: 50px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-option {
+            background-color: #eef2f7;
+            border: 2px solid #cbd5e1;
             padding: 12px;
-            font-family: 'Consolas', monospace;
-            font-size: 0.95rem;
-            box-sizing: border-box;
-            resize: vertical;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .btn-run {
-            background: #2563eb;
+        .btn-option:hover {
+            background-color: #e2e8f0;
+        }
+
+        .btn-next {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
             color: white;
             border: none;
-            padding: 10px 20px;
             border-radius: 6px;
-            font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
-            margin-top: 12px;
-            transition: background 0.2s;
+            display: none; /* كيختفي حتى يجاوب المستخدم */
         }
 
-        .btn-run:hover {
-            background: #1d4ed8;
+        .btn-next:hover {
+            background-color: #2980b9;
         }
 
-        .result-box {
+        .result {
             margin-top: 15px;
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: 600;
-            display: none;
+            font-size: 16px;
+            font-weight: bold;
         }
-        .status-success { background: #166534; color: #dcfce7; }
-        .status-error { background: #991b1b; color: #fee2e2; }
+
+        .correct { color: #27ae60; }
+        .incorrect { color: #e74c3c; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <a href="index.html" id="backLink" class="btn-back">← Retour à l'accueil</a>
+<div class="quiz-container" id="quiz-box">
+    <h2>Quiz : Cour 1</h2>
+    <div class="counter" id="counter">Question 1 / 3</div>
+    
+    <div class="question" id="question-text"></div>
 
-        <h2>🧪 Application Pratique : Chapitre 1</h2>
+    <div class="options" id="options-container"></div>
 
-        <div class="interactive-box">
-            <p style="margin-top:0; color: #cbd5e1;">
-                <b>Consigne :</b> Créez deux variables <span style="color:#38bdf8">a = 10</span> et <span style="color:#38bdf8">b = 20</span>, puis calculez et affichez leur somme.<br>
-                <i>(Écrivez votre script ci-dessous puis cliquez sur "Exécuter & Vérifier")</i>
-            </p>
+    <div class="result" id="result-message"></div>
 
-            <!-- المربع دابا خاوي كيطلب من التلميذ يكتب بنفسو -->
-            <textarea id="userCode" placeholder="# Écrivez votre code Python ici..."></textarea>
+    <button class="btn-next" id="next-btn" onclick="nextQuestion()">السؤال التالي ➔</button>
+</div>
 
-            <button class="btn-run" onclick="runPythonCode()">Exécuter & Vérifier 🚀</button>
-
-            <!-- النتيجة والتصحيح مباينينش فـ الأول حتى يورّك التلميذ -->
-            <div id="outputSuccess" class="result-box status-success"></div>
-            <div id="outputError" class="result-box status-error"></div>
-        </div>
-    </div>
-
-    <script>
-        let pyodideInstance = null;
-
-        async function initPyodide() {
-            if (!pyodideInstance) {
-                pyodideInstance = await loadPyodide();
-            }
+<script>
+    // 1. قائمة الأسئلة (تقدر تزيد شحال ما بغيتي ديال الأسئلة هنا)
+    const questions = [
+        {
+            question: "En Python, quelle est la fonction utilisée pour afficher du texte ?",
+            options: ["input()", "print()", "output()", "display()"],
+            answer: 1 // الترتيب ديال الجواب الصحيح (يبدأ من 0)
+        },
+        {
+            question: "Quel symbole est utilisé pour les commentaires sur une seule ligne en Python ?",
+            options: ["//", "/*", "#", "--"],
+            answer: 2
+        },
+        {
+            question: "Quelle est la valeur de le type de la variable x = 5.5 ?",
+            options: ["int", "string", "bool", "float"],
+            answer: 3
         }
-        initPyodide();
+    ];
 
-        async function runPythonCode() {
-            const successBox = document.getElementById("outputSuccess");
-            const errorBox = document.getElementById("outputError");
-            
-            successBox.style.display = "none";
-            errorBox.style.display = "none";
+    let currentQuestionIndex = 0;
+    let score = 0;
 
-            const code = document.getElementById("userCode").value.trim();
+    // 2. دالة عرض السؤال الحالي
+    function showQuestion() {
+        resetState();
+        let currentQuestion = questions[currentQuestionIndex];
+        
+        document.getElementById("counter").innerText = `Question ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById("question-text").innerText = currentQuestion.question;
 
-            if (code === "" || code === "# Écrivez votre code Python ici...") {
-                alert("Veuillez d'abord écrire votre code Python !");
-                return;
-            }
+        let optionsContainer = document.getElementById("options-container");
+        optionsContainer.innerHTML = "";
 
-            if (!pyodideInstance) {
-                alert("Le moteur Python est en cours de chargement, veuillez patienter une seconde...");
-                return;
-            }
-
-            const expectedOutput = "30";
-
-            try {
-                pyodideInstance.runPython(`
-                    import sys, io
-                    sys.stdout = io.StringIO()
-                `);
-
-                await pyodideInstance.runPythonAsync(code);
-                let output = pyodideInstance.runPython("sys.stdout.getvalue()").trim();
-
-                if (output === expectedOutput) {
-                    successBox.innerHTML = "✅ Bravo ! Votre code est correct. Résultat affiché : <b>" + output + "</b>";
-                    successBox.style.display = "block";
-                    // تسجيل إتمام التمرين لترقية نسبة التقدم
-                    localStorage.setItem('cour1_completed', 'true');
-                } else {
-                    errorBox.innerHTML = "❌ Résultat incorrect ! Vous avez affiché : <b>" + (output || "Rien") + "</b> (Résultat attendu : <b>" + expectedOutput + "</b>)";
-                    errorBox.style.display = "block";
-                }
-            } catch (err) {
-                errorBox.innerHTML = "⚠️ Erreur de syntaxe/exécution dans votre code :<br><small>" + err.message.split('\n').pop() + "</small>";
-                errorBox.style.display = "block";
-            }
-        }
-
-        // Direct Link
-        const directLink = "https://omg10.com/4/11367859";
-        document.getElementById('backLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open(directLink, '_blank');
-            window.location.href = "index.html";
+        currentQuestion.options.forEach((option, index) => {
+            let button = document.createElement("button");
+            button.innerText = option;
+            button.classList.add("btn-option");
+            button.onclick = () => selectAnswer(button, index);
+            optionsContainer.appendChild(button);
         });
-    </script>
+    }
+
+    // 3. تنظيف الحالة قبل السؤال التالي
+    function resetState() {
+        document.getElementById("result-message").innerText = "";
+        document.getElementById("next-btn").style.display = "none";
+    }
+
+    // 4. التحقق من الإجابة
+    function selectAnswer(selectedButton, selectedIndex) {
+        let currentQuestion = questions[currentQuestionIndex];
+        let buttons = document.querySelectorAll(".btn-option");
+        let resultDiv = document.getElementById("result-message");
+
+        // حبس باقي الأزرار
+        buttons.forEach(btn => btn.disabled = true);
+
+        if (selectedIndex === currentQuestion.answer) {
+            selectedButton.style.backgroundColor = "#27ae60";
+            selectedButton.style.color = "white";
+            resultDiv.className = "result correct";
+            resultDiv.innerText = "صحيح ! Bravo ✅";
+            score++;
+        } else {
+            selectedButton.style.backgroundColor = "#e74c3c";
+            selectedButton.style.color = "white";
+            buttons[currentQuestion.answer].style.backgroundColor = "#27ae60"; // إظهار الجواب الصحيح
+            buttons[currentQuestion.answer].style.color = "white";
+            resultDiv.className = "result incorrect";
+            resultDiv.innerText = "خطأ ! ❌";
+        }
+
+        // إظهار زر الانتقال للسؤال التالي
+        document.getElementById("next-btn").style.display = "inline-block";
+    }
+
+    // 5. الانتقال للسؤال التالي أو إنهاء الـ Quiz
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            showQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    // 6. عرض النتيجة النهائية
+    function showFinalScore() {
+        let quizBox = document.getElementById("quiz-box");
+        quizBox.innerHTML = `
+            <h2>النهاية ! 🎯</h2>
+            <p style="font-size: 20px;">النتيجة ديالك هي: <strong>${score} / ${questions.length}</strong></p>
+            <button class="btn-option" style="background-color: #3498db; color: white;" onclick="location.reload()">إعادة الـ Quiz 🔄</button>
+        `;
+    }
+
+    // بداية التشغيل
+    showQuestion();
+</script>
+
 </body>
 </html>
