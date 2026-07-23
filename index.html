@@ -11,12 +11,12 @@
 
     <style>
         :root {
-            --sidebar-bg: #f3f4f6;
+            --sidebar-bg: #f8fafc;
             --text-color: #1e1b4b;
             --accent-purple: #4c1d95;
-            --hover-bg: #e5e7eb;
+            --hover-bg: #f1f5f9;
             --card-bg: #ffffff;
-            --border-color: #e5e7eb;
+            --border-color: #e2e8f0;
         }
 
         * {
@@ -27,7 +27,7 @@
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: #f9fafb;
+            background-color: #f8fafc;
             color: var(--text-color);
             display: flex;
             min-height: 100vh;
@@ -38,15 +38,15 @@
             width: 100%;
         }
 
-        /* --- SIDEBAR DESIGN --- */
+        /* --- SIDEBAR DESIGN (مخفي فـ الواجهة الأولى) --- */
         .sidebar {
-            width: 280px;
+            width: 260px;
             background-color: var(--sidebar-bg);
             border-right: 1px solid var(--border-color);
             padding: 20px 15px;
-            display: flex;
+            display: none; /* مخفي افتراضياً */
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .sidebar-header {
@@ -58,8 +58,8 @@
         }
 
         .sidebar-header img {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
         }
 
         .sidebar-header h2 {
@@ -71,12 +71,12 @@
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 12px 16px;
-            color: var(--text-color);
+            gap: 12px;
+            padding: 12px 14px;
+            color: #334155;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             border-radius: 8px;
             transition: all 0.2s ease;
         }
@@ -86,16 +86,19 @@
             color: var(--accent-purple);
         }
 
-        .nav-icon {
-            width: 22px;
-            height: 22px;
+        /* الإيقونات/الرموز الصغيرة الجانبية */
+        .nav-icon-small {
+            width: 18px;
+            height: 18px;
             object-fit: contain;
+            opacity: 0.8;
         }
 
         /* --- CONTENT AREA --- */
         .main-content {
             flex: 1;
-            padding: 30px 20px;
+            padding: 40px 20px;
+            width: 100%;
             max-width: 900px;
             margin: 0 auto;
             display: flex;
@@ -103,7 +106,7 @@
             justify-content: center;
         }
 
-        /* --- HERO HOME SECTION (الصفحة الرئيسية الترحيبية) --- */
+        /* --- HERO HOME SECTION (الواجهة الأولى) --- */
         .hero-section {
             text-align: center;
             display: flex;
@@ -114,13 +117,13 @@
         }
 
         .hero-logo {
-            width: 90px;
+            width: 95px;
             height: auto;
         }
 
         .hero-title {
             color: var(--accent-purple);
-            font-size: 2rem;
+            font-size: 2.1rem;
             font-weight: 800;
         }
 
@@ -130,7 +133,6 @@
             max-width: 600px;
         }
 
-        /* شبكة الصور شادة العرض كاملا */
         .hero-images-container {
             display: flex;
             gap: 15px;
@@ -140,10 +142,10 @@
 
         .hero-img {
             width: 50%;
-            height: 240px;
+            height: 250px;
             object-fit: cover;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
             border: 1px solid var(--border-color);
         }
 
@@ -152,7 +154,7 @@
             color: #ffffff;
             font-size: 1rem;
             font-weight: 700;
-            padding: 14px 28px;
+            padding: 14px 32px;
             border-radius: 10px;
             border: none;
             cursor: pointer;
@@ -165,9 +167,9 @@
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
         }
 
-        /* --- COURSES DASHBOARD SECTION (المحتوى اللي كان ديجا) --- */
+        /* --- COURSES SECTION (الواجهة الثانية) --- */
         .courses-section {
-            display: none; /* مخفي فالأول */
+            display: none;
             width: 100%;
             max-width: 650px;
             margin: 0 auto;
@@ -214,7 +216,10 @@
         }
 
         .btn {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             padding: 15px;
             font-size: 0.95rem;
             font-weight: 600;
@@ -321,35 +326,36 @@
 
     <div class="app-container">
         
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
+        <!-- SIDEBAR (غادي تبان غير فـ الواجهة الثانية) -->
+        <aside id="mainSidebar" class="sidebar">
             <div class="sidebar-header">
                 <img src="logo.svg" alt="Logo">
                 <h2>Cours CPGE</h2>
             </div>
 
+            <!-- رموز صغيرة بـ SVG بحال اللي فـ التصويرة -->
             <a href="cour1.html" class="nav-item">
-                <img src="icon1.png" alt="Icon" class="nav-icon" onerror="this.src='logo.svg'">
+                <svg class="nav-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
                 <span>Cours 1</span>
             </a>
 
             <a href="cour2.html" class="nav-item">
-                <img src="icon2.png" alt="Icon" class="nav-icon" onerror="this.src='logo.svg'">
+                <svg class="nav-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
                 <span>Cours 2</span>
             </a>
 
             <a href="cour3.html" class="nav-item">
-                <img src="icon3.png" alt="Icon" class="nav-icon" onerror="this.src='logo.svg'">
+                <svg class="nav-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
                 <span>Cours 3</span>
             </a>
 
             <a href="cour4.html" class="nav-item">
-                <img src="icon4.png" alt="Icon" class="nav-icon" onerror="this.src='logo.svg'">
+                <svg class="nav-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
                 <span>Cours 4</span>
             </a>
 
             <a href="Testez vos connaissances.html" class="nav-item">
-                <img src="quiz-icon.png" alt="Icon" class="nav-icon" onerror="this.src='logo.svg'">
+                <svg class="nav-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 <span>Quiz & Tests</span>
             </a>
         </aside>
@@ -357,23 +363,21 @@
         <!-- MAIN CONTENT AREA -->
         <main class="main-content">
             
-            <!-- SECTION 1: HERO HOME (الترحيب والصور) -->
+            <!-- SECTION 1: HERO HOME (الواجهة الأولى فقط) -->
             <section id="heroSection" class="hero-section">
-                <img src="logo.svg" alt="Logo Grand" class="hero-logo">
+                <img src="logo.svg" alt="Logo CPGE" class="hero-logo">
                 <h1 class="hero-title">Bienvenue chez nous !</h1>
                 <p class="hero-subtext">La plateforme est consacrée aux cours d'informatique en CPGE-SUP.</p>
                 
                 <div class="hero-images-container">
-                    <!-- الصورة الأولى -->
                     <img src="img1.jpg" alt="Informatique CPGE" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80'">
-                    <!-- الصورة الثانية -->
                     <img src="img2.jpg" alt="Programming Code" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80'">
                 </div>
 
                 <button id="btnAccessCourses" class="btn-access">Accéder aux cours</button>
             </section>
 
-            <!-- SECTION 2: DASHBOARD (الدروس ونسبة التقدم) -->
+            <!-- SECTION 2: COURSES DASHBOARD (الواجهة الثانية) -->
             <section id="coursesSection" class="courses-section">
                 <div class="progress-card">
                     <div class="progress-info">
@@ -416,12 +420,14 @@
         
         const heroSection = document.getElementById('heroSection');
         const coursesSection = document.getElementById('coursesSection');
+        const mainSidebar = document.getElementById('mainSidebar');
         const btnAccessCourses = document.getElementById('btnAccessCourses');
 
-        // التبديل بين واجهة الترحب وواجهة الدروس عند الضغط على البطونة
+        // التبديل للواجهة الثانية عند الضغط على "Accéder aux cours"
         btnAccessCourses.addEventListener('click', function() {
             heroSection.style.display = 'none';
             coursesSection.style.display = 'block';
+            mainSidebar.style.display = 'flex'; // إظهار القائمة الجانبية فـ الواجهة 2
         });
 
         // Déblocage Access
@@ -439,7 +445,7 @@
             setTimeout(unlockAccess, 1000);
         });
 
-        // Calculation Progression
+        // Progression Calculation
         function updateOverallProgress() {
             const totalModules = 4;
             let completedModules = 0;
