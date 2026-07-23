@@ -33,13 +33,12 @@
             min-height: 100vh;
         }
 
-        /* --- DASHBOARD LAYOUT (Sidebar + Main) --- */
         .app-container {
             display: flex;
             width: 100%;
         }
 
-        /* --- SIDEBAR DESIGN (Bhal التصويرة) --- */
+        /* --- SIDEBAR DESIGN --- */
         .sidebar {
             width: 280px;
             background-color: var(--sidebar-bg);
@@ -87,25 +86,93 @@
             color: var(--accent-purple);
         }
 
-        /* التصويرة / الإيقونة على اليسار */
         .nav-icon {
             width: 22px;
             height: 22px;
             object-fit: contain;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        /* --- CONTENT AREA (المساحة الرئيسية) --- */
+        /* --- CONTENT AREA --- */
         .main-content {
             flex: 1;
             padding: 30px 20px;
-            max-width: 700px;
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* --- HERO HOME SECTION (الصفحة الرئيسية الترحيبية) --- */
+        .hero-section {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .hero-logo {
+            width: 90px;
+            height: auto;
+        }
+
+        .hero-title {
+            color: var(--accent-purple);
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .hero-subtext {
+            color: #64748b;
+            font-size: 1.05rem;
+            max-width: 600px;
+        }
+
+        /* شبكة الصور شادة العرض كاملا */
+        .hero-images-container {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .hero-img {
+            width: 50%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-access {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 14px 28px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-access:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        /* --- COURSES DASHBOARD SECTION (المحتوى اللي كان ديجا) --- */
+        .courses-section {
+            display: none; /* مخفي فالأول */
+            width: 100%;
+            max-width: 650px;
             margin: 0 auto;
         }
 
-        /* Progress Bar Card */
         .progress-card {
             background: var(--card-bg);
             padding: 18px 22px;
@@ -142,7 +209,6 @@
             transition: width 0.5s ease-in-out;
         }
 
-        /* Main Container Cards */
         .course-row {
             margin-bottom: 12px;
         }
@@ -220,7 +286,6 @@
             margin-top: 15px;
         }
 
-        /* Responsive design للهواتف */
         @media (max-width: 768px) {
             .app-container {
                 flex-direction: column;
@@ -229,6 +294,13 @@
                 width: 100%;
                 border-right: none;
                 border-bottom: 1px solid var(--border-color);
+            }
+            .hero-images-container {
+                flex-direction: column;
+            }
+            .hero-img {
+                width: 100%;
+                height: 180px;
             }
         }
     </style>
@@ -249,14 +321,13 @@
 
     <div class="app-container">
         
-        <!-- SIDEBAR ( القائمة الجانبية بنفس ستايل التصويرة ) -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <img src="logo.svg" alt="Logo">
                 <h2>Cours CPGE</h2>
             </div>
 
-            <!-- بلاصة التصيويرات / الإيقونات تقدر تبدلها بـ <img> خاص بك -->
             <a href="cour1.html" class="nav-item">
                 <img src="icon1.png" alt="Icon" class="nav-icon" onerror="this.src='logo.svg'">
                 <span>Cours 1</span>
@@ -283,41 +354,58 @@
             </a>
         </aside>
 
-        <!-- MAIN CONTENT (المحتوى الرئيسي) -->
+        <!-- MAIN CONTENT AREA -->
         <main class="main-content">
             
-            <div class="progress-card">
-                <div class="progress-info">
-                    <span>Progression du programme</span>
-                    <span id="progressPercent" class="progress-percent">0%</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div id="progressBarFill" class="progress-bar-fill"></div>
-                </div>
-            </div>
-
-            <div class="main-container">
-                <div class="course-row">
-                    <a href="cour1.html" id="btn1" class="btn btn-1 disabled">Voir le Cour 1</a>
+            <!-- SECTION 1: HERO HOME (الترحيب والصور) -->
+            <section id="heroSection" class="hero-section">
+                <img src="logo.svg" alt="Logo Grand" class="hero-logo">
+                <h1 class="hero-title">Bienvenue chez nous !</h1>
+                <p class="hero-subtext">La plateforme est consacrée aux cours d'informatique en CPGE-SUP.</p>
+                
+                <div class="hero-images-container">
+                    <!-- الصورة الأولى -->
+                    <img src="img1.jpg" alt="Informatique CPGE" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80'">
+                    <!-- الصورة الثانية -->
+                    <img src="img2.jpg" alt="Programming Code" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80'">
                 </div>
 
-                <div class="course-row">
-                    <a href="cour2.html" id="btn2" class="btn btn-2 disabled">Voir le Cour 2</a>
+                <button id="btnAccessCourses" class="btn-access">Accéder aux cours</button>
+            </section>
+
+            <!-- SECTION 2: DASHBOARD (الدروس ونسبة التقدم) -->
+            <section id="coursesSection" class="courses-section">
+                <div class="progress-card">
+                    <div class="progress-info">
+                        <span>Progression du programme</span>
+                        <span id="progressPercent" class="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="progressBarFill" class="progress-bar-fill"></div>
+                    </div>
                 </div>
 
                 <div class="course-row">
-                    <div class="course-row">
-                    <a href="cour3.html" id="btn3" class="btn btn-3 disabled">Voir le Cour 3</a>
+                    <a href="cour1.html" id="btn1" class="btn btn-1 disabled">Voir le Cours 1</a>
                 </div>
 
                 <div class="course-row">
-                    <a href="cour4.html" id="btn4" class="btn btn-4 disabled">Voir le Cour 4</a>
+                    <a href="cour2.html" id="btn2" class="btn btn-2 disabled">Voir le Cours 2</a>
+                </div>
+
+                <div class="course-row">
+                    <a href="cour3.html" id="btn3" class="btn btn-3 disabled">Voir le Cours 3</a>
+                </div>
+
+                <div class="course-row">
+                    <a href="cour4.html" id="btn4" class="btn btn-4 disabled">Voir le Cours 4</a>
                 </div>
 
                 <a href="Testez vos connaissances.html" id="btnQuiz" class="btn btn-quiz disabled">
                     Testez vos connaissances
                 </a>
-            </div>
+            </section>
+
         </main>
     </div>
 
@@ -325,7 +413,18 @@
         const unlockModal = document.getElementById('unlockModal');
         const unlockLink = document.getElementById('unlockLink');
         const allButtons = document.querySelectorAll('.btn, .nav-item');
+        
+        const heroSection = document.getElementById('heroSection');
+        const coursesSection = document.getElementById('coursesSection');
+        const btnAccessCourses = document.getElementById('btnAccessCourses');
 
+        // التبديل بين واجهة الترحب وواجهة الدروس عند الضغط على البطونة
+        btnAccessCourses.addEventListener('click', function() {
+            heroSection.style.display = 'none';
+            coursesSection.style.display = 'block';
+        });
+
+        // Déblocage Access
         function unlockAccess() {
             unlockModal.style.display = 'none';
             allButtons.forEach(btn => btn.classList.remove('disabled'));
@@ -340,6 +439,7 @@
             setTimeout(unlockAccess, 1000);
         });
 
+        // Calculation Progression
         function updateOverallProgress() {
             const totalModules = 4;
             let completedModules = 0;
