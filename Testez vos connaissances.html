@@ -197,12 +197,7 @@
             answer: 2
         },
         {
-            question: "3. Quel nom de variable est VALIDE en Python ?",
-            options: ["1er_nombre", "_valeur_temp", "nom complet", "prix€"],
-            answer: 1
-        },
-        {
-            question: "4. Que font ces lignes de code ? <br><code>a, b = 5, 9<br>a, b = b, a</code>",
+            question: "3. Que font ces lignes de code ? <br><code>a, b = 5, 9<br>a, b = b, a</code>",
             options: [
                 "Elles provoquent une erreur de syntaxe",
                 "Elles attribuent 9 à a et b",
@@ -212,27 +207,27 @@
             answer: 2
         },
         {
-            question: "5. Que renvoie systématiquement la fonction input() ?",
+            question: "4. Que renvoie systématiquement la fonction input() ?",
             options: ["Un entier (int)", "Un flottant (float)", "Un booléen (bool)", "Une chaîne de caractères (str)"],
             answer: 3
         },
         {
-            question: "6. Comment convertir une saisie utilisateur en nombre à virgule ?",
+            question: "5. Comment convertir une saisie utilisateur en nombre à virgule ?",
             options: ["float(input())", "int(input())", "str(input())", "cast(input())"],
             answer: 0
         },
         {
-            question: "7. Quel sera l'affichage de : <code>print('2026', '07', '22', sep='/')</code> ?",
+            question: "6. Quel sera l'affichage de : <code>print('2026', '07', '22', sep='/')</code> ?",
             options: ["2026 07 22 /", "2026/07/22", "2026 07 22", "2026/07/22/"],
             answer: 1
         },
         {
-            question: "8. Quel argument de print() permet d'éviter le retour à la ligne automatique ?",
+            question: "7. Quel argument de print() permet d'éviter le retour à la ligne automatique ?",
             options: ["sep", "end", "stop", "line"],
             answer: 1
         },
         {
-            question: "9. Quelle est la particularité d'un Ensemble (set) en Python ?",
+            question: "8. Quelle est la particularité d'un Ensemble (set) en Python ?",
             options: [
                 "Il est toujours ordonné",
                 "C'est une collection d'éléments uniques",
@@ -242,7 +237,7 @@
             answer: 1
         },
         {
-            question: "10. Python est un langage à typage :",
+            question: "9. Python est un langage à typage :",
             options: ["Statique", "Manuel", "Dynamique", "Strict"],
             answer: 2
         }
@@ -286,13 +281,13 @@
 
         if (selectedIndex === q.answer) {
             selectedBtn.classList.add('correct');
-            feedback.innerText = "إجابة صحيحة ! Bravo ✅";
+            feedback.innerText = "La réponse est Juste ! Bravo ✅";
             feedback.classList.add('correct-bg');
             score++;
         } else {
             selectedBtn.classList.add('incorrect');
             buttons[q.answer].classList.add('correct');
-            feedback.innerText = "إجابة خاطئة ! ❌";
+            feedback.innerText = "La réponse est fausse ! ❌";
             feedback.classList.add('incorrect-bg');
         }
 
@@ -313,10 +308,10 @@
         const quizCard = document.getElementById('quiz-card');
         quizCard.innerHTML = `
             <div class="score-board">
-                <h2>مبروك ! كملتي الـ Quiz 🎯</h2>
-                <p style="color: #64748b;">النتيجة النهائية ديالك هي:</p>
+                <h2> Fin Quiz 🎯</h2>
+                <p style="color: #64748b;">اScore final:</p>
                 <div class="score-number">${score} / ${questions.length}</div>
-                <button class="restart-btn" onclick="location.reload()">إعادة الاختبار 🔄</button>
+                <button class="restart-btn" onclick="location.reload()"> Refaire 🔄</button>
             </div>
         `;
     }
