@@ -273,24 +273,24 @@
     <!-- LES BOUTONS DE COURS ET APPLICATIONS -->
     <div class="main-container">
         <div class="course-row">
-            <a href="cour1.html" id="btn1" class="btn btn-1 btn-course disabled">Voir le Cour 1</a>
+            <a href="cour1.html" id="btn1" class="btn btn-1 btn-course disabled">Voir le Cours 1</a>
         </div>
 
         <div class="course-row">
-            <a href="cour2.html" id="btn2" class="btn btn-2 btn-course disabled">Voir le Cour 2</a>
+            <a href="cour2.html" id="btn2" class="btn btn-2 btn-course disabled">Voir le Cours 2</a>
         </div>
 
         <div class="course-row">
-            <a href="cour3.html" id="btn3" class="btn btn-3 btn-course disabled">Voir le Cour 3</a>
+            <a href="cour3.html" id="btn3" class="btn btn-3 btn-course disabled">Voir le Cours 3</a>
         </div>
 
         <div class="course-row">
-            <a href="cour4.html" id="btn4" class="btn btn-4 btn-course disabled">Voir le Cour 4</a>
+            <a href="cour4.html" id="btn4" class="btn btn-4 btn-course disabled">Voir le Cours 4</a>
         </div>
 
         <!-- LE BOUTON PRINCIPAL Testez vos connaissances -->
         <a href="Testez vos connaissances.html" id="btnQuiz" class="btn btn-quiz disabled">
-             Testez vos connaissances
+            Testez vos connaissances
         </a>
     </div>
 
@@ -298,7 +298,7 @@
         const unlockModal = document.getElementById('unlockModal');
         const unlockLink = document.getElementById('unlockLink');
         
-        // Sélection de tous les boutons (cours + applications + quiz)
+        // Sélection de tous les boutons (cours + quiz)
         const allButtons = document.querySelectorAll('.main-container .btn');
 
         // Fonction pour débloquer l'accès aux cours
@@ -320,7 +320,7 @@
 
         // Calcul automatique de la progression globale (%)
         function updateOverallProgress() {
-            const totalModules = 4; // عدد الدروس الإجمالي
+            const totalModules = 4;
             let completedModules = 0;
 
             for (let i = 1; i <= totalModules; i++) {
