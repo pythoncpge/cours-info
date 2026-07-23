@@ -11,30 +11,84 @@
 
     <style>
         :root {
-            --sidebar-bg: #f8fafc;
+            --bg-body: #f8fafc;
+            --sidebar-bg: #ffffff;
             --text-color: #1e1b4b;
+            --text-sub: #64748b;
             --accent-purple: #4c1d95;
             --hover-bg: #f1f5f9;
             --card-bg: #ffffff;
             --border-color: #e2e8f0;
+            --banner-bg: linear-gradient(135deg, #4c1d95, #2563eb);
+            --banner-text: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --sidebar-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-sub: #94a3b8;
+            --accent-purple: #a78bfa;
+            --hover-bg: #334155;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --banner-bg: linear-gradient(135deg, #1e1b4b, #1e293b);
+            --banner-text: #f8fafc;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: #f8fafc;
+            background-color: var(--bg-body);
             color: var(--text-color);
-            display: flex;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
+        /* --- ANNOUNCEMENT BANNER --- */
+        .announcement-banner {
+            background: var(--banner-bg);
+            color: var(--banner-text);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .banner-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 auto;
+        }
+
+        .banner-close {
+            background: transparent;
+            border: none;
+            color: var(--banner-text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+
+        .banner-close:hover {
+            opacity: 1;
+        }
+
+        /* --- APP LAYOUT --- */
         .app-container {
             display: flex;
+            flex: 1;
             width: 100%;
         }
 
@@ -73,7 +127,7 @@
             align-items: center;
             gap: 12px;
             padding: 12px 14px;
-            color: #334155;
+            color: var(--text-color);
             text-decoration: none;
             font-weight: 600;
             font-size: 0.92rem;
@@ -86,27 +140,60 @@
             color: var(--accent-purple);
         }
 
-        /* الإيقونات/الرموز الصغيرة الجانبية */
         .nav-icon-small {
             width: 18px;
             height: 18px;
-            object-fit: contain;
-            opacity: 0.8;
+            fill: currentColor;
+            opacity: 0.85;
+        }
+
+        /* Dark Mode Toggle Button in Sidebar */
+        .theme-toggle-btn {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            background-color: var(--hover-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
         }
 
         /* --- CONTENT AREA --- */
         .main-content {
             flex: 1;
-            padding: 40px 20px;
+            padding: 30px 20px;
             width: 100%;
             max-width: 900px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            position: relative;
         }
 
-        /* --- HERO HOME SECTION (الواجهة الأولى) --- */
+        /* Top Bar Mode Switch for Hero View */
+        .top-theme-switch {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- HERO HOME SECTION --- */
         .hero-section {
             text-align: center;
             display: flex;
@@ -128,7 +215,7 @@
         }
 
         .hero-subtext {
-            color: #64748b;
+            color: var(--text-sub);
             font-size: 1.05rem;
             max-width: 600px;
         }
@@ -142,7 +229,7 @@
 
         .hero-img {
             width: 50%;
-            height: 250px;
+            height: 240px;
             object-fit: cover;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.06);
@@ -167,7 +254,7 @@
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
         }
 
-        /* --- COURSES SECTION (الواجهة الثانية) --- */
+        /* --- COURSES SECTION --- */
         .courses-section {
             display: none;
             width: 100%;
@@ -198,8 +285,8 @@
 
         .progress-bar-bg {
             width: 100%;
-            height: 10px;
-            background: #e2e8f0;
+            height: 12px;
+            background: var(--hover-bg);
             border-radius: 6px;
             overflow: hidden;
         }
@@ -208,7 +295,7 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #4c1d95, #10b981);
-            transition: width 0.5s ease-in-out;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .course-row {
@@ -270,13 +357,14 @@
         }
 
         .modal-card {
-            background: #ffffff;
+            background: var(--card-bg);
             border-radius: 16px;
             padding: 30px 25px;
             max-width: 420px;
             width: 100%;
             text-align: center;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
         }
 
         .btn-unlock {
@@ -312,12 +400,20 @@
 </head>
 <body>
 
+    <!-- ANNOUNCEMENT BANNER -->
+    <div id="announcementBanner" class="announcement-banner">
+        <div class="banner-content">
+            <span>📢 <strong>Nouveau:</strong> Résumés et Quiz d'Informatique CPGE mis à jour !</span>
+        </div>
+        <button class="banner-close" onclick="closeBanner()">&times;</button>
+    </div>
+
     <!-- POP-UP DE DÉBLOCAGE -->
     <div id="unlockModal" class="modal-overlay">
         <div class="modal-card">
             <img src="logo.svg" alt="Logo" style="width:50px; margin-bottom:12px;">
-            <h2 style="color:var(--text-color); margin-bottom:8px;">Débloquer l'accès aux cours</h2>
-            <p style="color:#64748b; font-size:0.95rem;">Pour accéder aux cours d'informatique, veuillez d'abord visiter notre page partenaire.</p>
+            <h2 style="margin-bottom:8px;">Débloquer l'accès aux cours</h2>
+            <p style="color:var(--text-sub); font-size:0.95rem;">Pour accéder aux cours d'informatique, veuillez d'abord visiter notre page partenaire.</p>
             <a href="https://linktr.ee/achrafmonst" target="_blank" id="unlockLink" class="btn-unlock">
                 Accéder et Débloquer les Cours
             </a>
@@ -333,37 +429,48 @@
                 <h2>Cours CPGE</h2>
             </div>
 
-            <!-- رموز صغيرة بـ SVG بحال اللي فـ التصويرة -->
-            <a href="cour1.html" class="nav-item">
-                <svg class="nav-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+            <a href="cour1.html" class="nav-item" onclick="markCourseRead(1)">
+                <svg class="nav-icon-small" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
                 <span>Cours 1</span>
             </a>
 
-            <a href="cour2.html" class="nav-item">
-                <svg class="nav-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+            <a href="cour2.html" class="nav-item" onclick="markCourseRead(2)">
+                <svg class="nav-icon-small" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
                 <span>Cours 2</span>
             </a>
 
-            <a href="cour3.html" class="nav-item">
-                <svg class="nav-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+            <a href="cour3.html" class="nav-item" onclick="markCourseRead(3)">
+                <svg class="nav-icon-small" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
                 <span>Cours 3</span>
             </a>
 
-            <a href="cour4.html" class="nav-item">
-                <svg class="nav-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+            <a href="cour4.html" class="nav-item" onclick="markCourseRead(4)">
+                <svg class="nav-icon-small" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
                 <span>Cours 4</span>
             </a>
 
             <a href="Testez vos connaissances.html" class="nav-item">
-                <svg class="nav-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="nav-icon-small" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 <span>Quiz & Tests</span>
             </a>
+
+            <!-- Dark Mode Toggle Button in Sidebar -->
+            <button class="theme-toggle-btn" onclick="toggleDarkMode()">
+                <span id="themeBtnIcon">🌙</span>
+                <span id="themeBtnText">Mode Sombre</span>
+            </button>
         </aside>
 
         <!-- MAIN CONTENT AREA -->
         <main class="main-content">
             
-            <!-- SECTION 1: HERO HOME (الواجهة الأولى فقط) -->
+            <!-- Top Mode Switch for Hero View -->
+            <button id="topThemeBtn" class="top-theme-switch" onclick="toggleDarkMode()">
+                <span id="topThemeIcon">🌙</span>
+                <span id="topThemeText">Mode Sombre</span>
+            </button>
+
+            <!-- SECTION 1: HERO HOME -->
             <section id="heroSection" class="hero-section">
                 <img src="logo.svg" alt="Logo CPGE" class="hero-logo">
                 <h1 class="hero-title">Bienvenue chez nous !</h1>
@@ -377,7 +484,7 @@
                 <button id="btnAccessCourses" class="btn-access">Accéder aux cours</button>
             </section>
 
-            <!-- SECTION 2: COURSES DASHBOARD (الواجهة الثانية) -->
+            <!-- SECTION 2: COURSES DASHBOARD -->
             <section id="coursesSection" class="courses-section">
                 <div class="progress-card">
                     <div class="progress-info">
@@ -390,19 +497,19 @@
                 </div>
 
                 <div class="course-row">
-                    <a href="cour1.html" id="btn1" class="btn btn-1 disabled">Voir le Cour 1</a>
+                    <a href="cour1.html" id="btn1" class="btn btn-1 disabled" onclick="markCourseRead(1)">Voir le Cour 1</a>
                 </div>
 
                 <div class="course-row">
-                    <a href="cour2.html" id="btn2" class="btn btn-2 disabled">Voir le Cour 2</a>
+                    <a href="cour2.html" id="btn2" class="btn btn-2 disabled" onclick="markCourseRead(2)">Voir le Cour 2</a>
                 </div>
 
                 <div class="course-row">
-                    <a href="cour3.html" id="btn3" class="btn btn-3 disabled">Voir le Cour 3</a>
+                    <a href="cour3.html" id="btn3" class="btn btn-3 disabled" onclick="markCourseRead(3)">Voir le Cour 3</a>
                 </div>
 
                 <div class="course-row">
-                    <a href="cour4.html" id="btn4" class="btn btn-4 disabled">Voir le Cour 4</a>
+                    <a href="cour4.html" id="btn4" class="btn btn-4 disabled" onclick="markCourseRead(4)">Voir le Cour 4</a>
                 </div>
 
                 <a href="Testez vos connaissances.html" id="btnQuiz" class="btn btn-quiz disabled">
@@ -422,15 +529,9 @@
         const coursesSection = document.getElementById('coursesSection');
         const mainSidebar = document.getElementById('mainSidebar');
         const btnAccessCourses = document.getElementById('btnAccessCourses');
+        const topThemeBtn = document.getElementById('topThemeBtn');
 
-        // التبديل للواجهة الثانية عند الضغط على "Accéder aux cours"
-        btnAccessCourses.addEventListener('click', function() {
-            heroSection.style.display = 'none';
-            coursesSection.style.display = 'block';
-            mainSidebar.style.display = 'flex'; // إظهار القائمة الجانبية فـ الواجهة 2
-        });
-
-        // Déblocage Access
+        // Access Unlock logic
         function unlockAccess() {
             unlockModal.style.display = 'none';
             allButtons.forEach(btn => btn.classList.remove('disabled'));
@@ -445,7 +546,56 @@
             setTimeout(unlockAccess, 1000);
         });
 
-        // Progression Calculation
+        // Toggle View
+        btnAccessCourses.addEventListener('click', function() {
+            heroSection.style.display = 'none';
+            topThemeBtn.style.display = 'none';
+            coursesSection.style.display = 'block';
+            mainSidebar.style.display = 'flex';
+            updateOverallProgress();
+        });
+
+        // Banner Close
+        function closeBanner() {
+            document.getElementById('announcementBanner').style.display = 'none';
+        }
+
+        // DARK MODE SYSTEM
+        function toggleDarkMode() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                updateThemeUI(false);
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeUI(true);
+            }
+        }
+
+        function updateThemeUI(isDark) {
+            const icon = isDark ? '☀️' : '🌙';
+            const text = isDark ? 'Mode Clair' : 'Mode Sombre';
+            
+            document.getElementById('themeBtnIcon').innerText = icon;
+            document.getElementById('themeBtnText').innerText = text;
+            document.getElementById('topThemeIcon').innerText = icon;
+            document.getElementById('topThemeText').innerText = text;
+        }
+
+        // Load Saved Theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            updateThemeUI(true);
+        }
+
+        // PROGRESS BAR DYNAMIC CALCULATION (Fix for 0% freeze)
+        function markCourseRead(courseNum) {
+            localStorage.setItem(`cour${courseNum}_completed`, 'true');
+            updateOverallProgress();
+        }
+
         function updateOverallProgress() {
             const totalModules = 4;
             let completedModules = 0;
@@ -457,10 +607,17 @@
             }
 
             const percentage = Math.round((completedModules / totalModules) * 100);
-            document.getElementById('progressBarFill').style.width = percentage + '%';
-            document.getElementById('progressPercent').innerText = percentage + '%';
+            
+            const fill = document.getElementById('progressBarFill');
+            const label = document.getElementById('progressPercent');
+
+            if (fill && label) {
+                fill.style.width = percentage + '%';
+                label.innerText = percentage + '%';
+            }
         }
 
+        // Initialize progress bar on load
         updateOverallProgress();
     </script>
 </body>
